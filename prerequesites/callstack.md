@@ -8,16 +8,19 @@ It's what allows us to do 3 things :
 
 In order to do so, we'll use a LIFO structure (a stack). Each component of the stack is called the **stack frame** and corresponds to what we've seen above.
 ```text
-rsp-> +-------------locals------------+
+      +-------call to func_0----------+
+rsp ->+-------------locals------------+
       | 0x00 - 0x14 | int a           |
       | 0x10 - 0x60 | char buff[0x50] |
       +-------------return------------+
       | 0x60 - 0x64 | rip             |
       +-------------params------------+
       | 0x64 - 0x70 | int arg         |
+      ---------------------------------
+      +-------call to func_1----------+
       +-------------locals------------+
       | 0x00 - 0x14 | int a           |
-      | 0x10 - 0x60 | char buff[0x50] |
+      | 0x10 - 0x60 | int b           |
       +-------------return------------+
       | 0x60 - 0x64 | rip             |
       +-------------params------------+
