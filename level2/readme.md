@@ -4,7 +4,7 @@
 
 We are once again given a binary to exploit. This binary also has minimal security options.
 
-We revere engineer it once again using ghidra and it gives the following pseudo-C :
+We reverse engineer it once again using ghidra and it gives the following pseudo-C :
 
 ```c
 void p(void)
@@ -40,8 +40,22 @@ And the stack frame looks like this :
              undefined4        Stack[-0x6c]:4 local_6c                   
 ```
 Looks like an easy buffer overflow, except unaff_retaddr is checked in order to see if it begins with `0xb`.
-This prevents us from overwriting the return address with an address on the stack because the stack address for this program seems to always start with `0xb`.
-But look at the end ! There's a call to `strdup` which seems very useless to the program but very useful to us because if we know the address that strdup returns,
+
+It is unclear what `unaff_retaddr` is because can't find any docs about it. However, if we look at the asm that corresponds to these lines and the stack frame :
+
+```assembly
+        080484f2 8b 45 04        MOV        EAX,dword ptr [EBP + local_res0]
+        080484f5 89 45 f4        MOV        dword ptr [EBP + local_10],EAX
+        080484f8 8b 45 f4        MOV        EAX,dword ptr [EBP + local_10]
+        080484fb 25 00 00        AND        EAX,0xb0000000
+                 00 b0
+        08048500 3d 00 00        CMP        EAX,0xb0000000
+                 00 b0
+```
+We can see that this is just the return address.
+
+This effectively prevents us from overwriting the return address with an address on the stack because the stack address for this program seems to always start with `0xb`.
+But look at the end ! There's a call to `strdup` which seems very useless to the program but very useful to us because if we know the address that `strdup` returns,
 then, we can overwrite the return address with that value so that it lands on a copy of our shellcode.
 
 ```text
