@@ -1,4 +1,4 @@
-## Level1
+# Level1
 
 In this level we have a binary `level1`. When we execute it, it wait for an input, then when we provide it, it print nothing 
 ```bash

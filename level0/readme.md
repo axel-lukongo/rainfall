@@ -1,4 +1,4 @@
-# Level 0 - Binary Exploitation
+# Level 0
 
 ## Introduction
 In this level, we have a binary `level0`. When executed without any parameter, it causes a segmentation fault:
