@@ -7,7 +7,7 @@ Stack canaries rely on the same concept, we put a randomly initalized and secret
 Here's an example, of what the stack frame would look like.
 
 ```text
-      +-------call to swap----------+
+      +-------call to func_0----------+
 rsp ->+-------------locals------------+
       | 0x00 - 0x14 | int a           |
       | 0x10 - 0x60 | char buff[0x50] |
@@ -23,7 +23,7 @@ rsp ->+-------------locals------------+
                     .
 ```
 
-Here, if we overflow buffer, we'd have to overwrite the canary first in order to overwrite the return variable.
+Here, if we overflow buffer, we'd have to overwrite the canary first in order to overwrite the return variable. The canary is a form of tamper evident security measure which can be find in the real world eg. the lid on your yogurt.
 
 ## What is NX ?
 
